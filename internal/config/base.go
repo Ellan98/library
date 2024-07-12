@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-07-04 13:40:07
+ * @LastEditTime: 2024-07-12 10:26:37
+ * @FilePath: \library_room\internal\config\base.go
+ * @description: 注释
+ */
 package config
 
 import (

@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:27
- * @LastEditTime: 2024-07-05 15:23:00
+ * @LastEditTime: 2024-07-09 17:39:46
  * @FilePath: \library_room\cmd\base.go
  * @description: 注释
  */
@@ -15,7 +15,10 @@ import (
 	"library_room/internal/core"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -41,14 +44,12 @@ func New() *LibraryRoomCmd {
 		RootCmd: &cobra.Command{
 			Use:   "library",
 			Short: "Library: A self-hosted comment system",
-			Long: `A longer description that spans multiple lines and likely contains examples
-		and usage of using your command. For example:
-		
-		Cobra is a CLI library for Go that empowers applications.
-		This application is a tool to generate the needed files
-		to quickly create a Cobra application.`,
+			Long: `Cobra是Go的CLI库，可为应用程序提供功能。
+此应用程序是生成所需文件的工具
+以快速创建Cobra应用程序。`,
 			Run: func(cmd *cobra.Command, args []string) {
-				fmt.Println("base called")
+				fmt.Print("-------------------------------\n\n")
+				fmt.Println("NOTE: add `-h` flag to show help about any command.")
 			},
 		},
 	}
@@ -62,19 +63,25 @@ func New() *LibraryRoomCmd {
 }
 
 func (library *LibraryRoomCmd) eagerParseFlags() error {
-	library.RootCmd.PersistentFlags().StringVarP(&library.cfgFile, "config", "c", "", "config file path (defaults are 'configs/library.yml')")
-	// library.RootCmd.PersistentFlags().StringVarP(&library.workDir, "workdir", "w", "", "program working directory (defaults are './')")
+	// library.RootCmd.PersistentFlags()：访问命令的全局标志（persistent flags）。 这些标志是持久标志（persistent flags），它们对命令及其所有子命令都有效
+	// StringVarP：定义一个字符串类型的标志
+	//&library.cfgFile：将标志的值存储在 library 实例的 cfgFile 字段中。
+	// "config"：标志的全名。
+	// "c"：标志的短名（单字符）""：标志的默认值。 "config file path (defaults are 'configs/library.yml')"：标志的描述。
+	library.RootCmd.PersistentFlags().StringVarP(&library.cfgFile, "config", "c", "", "config file path (defaults are 'configs/library_room.yml')")
+	library.RootCmd.PersistentFlags().StringVarP(&library.workDir, "workdir", "w", "", "program working directory (defaults are './')")
+	// 从命令行参数中解析标志。os.Args 是一个包含所有命令行参数的字符串数组，os.Args[0] 通常是程序名称，os.Args[1:] 包含实际的命令行参数。ParseFlags 方法会解析这些参数并将结果存储在相关的标志变量中。
 	return library.RootCmd.ParseFlags(os.Args[1:])
 }
 
 func (library *LibraryRoomCmd) addCommand(cmd *cobra.Command) {
-	// originalPreRunFunc := cmd.PreRun
+	originalPreRunFunc := cmd.PreRun
 
-	// cmd.PreRun = func(cmd *cobra.Command, args []string) {
-	// 	// ================
-	// 	//  APP Bootstrap
-	// 	// ================
-	if cmd.Annotations[BootModeKey] != string(MODE_MINI_BOOT) {
+	cmd.PreRun = func(cmd *cobra.Command, args []string) {
+		// 	// ================
+		// 	//  APP Bootstrap
+		// 	// ================
+		fmt.Printf("当前cfgfliePath：%v\n", library.cfgFile)
 		// Load config
 		config, err := getConfig(library.cfgFile)
 		if err != nil {
@@ -82,15 +89,13 @@ func (library *LibraryRoomCmd) addCommand(cmd *cobra.Command) {
 		}
 
 		fmt.Printf("文件路径:%v\n", config)
-		// 		// Create new instance
+		// Create new instance
 		library.App = core.NewApp(config)
 
+		if originalPreRunFunc != nil {
+			originalPreRunFunc(cmd, args) // extends original pre-run logic
+		}
 	}
-
-	// 	if originalPreRunFunc != nil {
-	// 		originalPreRunFunc(cmd, args) // extends original pre-run logic
-	// 	}
-	// }
 	library.RootCmd.AddCommand(cmd)
 	fmt.Printf("library:type%+v\n", library)
 }
@@ -143,18 +148,46 @@ func getConfig(cfgFile string) (*config.Config, error) {
 	return config.NewFromFile(cfgFile)
 }
 
-func (library *LibraryRoomCmd) Launch() {
+func (library *LibraryRoomCmd) Launch() error {
 	// ===================
 	//  1. Prepare Commands
 	// ===================
 	library.mountCommands()
 
-	// 打印当前所有子命令
-	library.printCommands()
-	if err := library.RootCmd.Execute(); err != nil {
-		fmt.Println("Error executing command:", err)
-		os.Exit(1)
-	}
+	done := make(chan bool, 1) // shutdown signal
+
+	// listen for interrupt signal to gracefully shutdown the application
+	go func() {
+		sigch := make(chan os.Signal, 1)
+		signal.Notify(sigch, os.Interrupt, syscall.SIGTERM)
+		<-sigch
+
+		done <- true
+	}()
+
+	// ===================
+	//  2. Command Execute
+	// ===================
+	go func() {
+		if err := library.RootCmd.Execute(); err != nil {
+			color.Red(err.Error())
+		}
+
+		done <- true
+	}()
+
+	<-done
+
+	// ===================
+	//  3. App Cleanups
+	// ===================
+	// if library.App != nil {
+	// 	return library.App.OnTerminate().Trigger(&core.TerminateEvent{
+	// 		App: library.App,
+	// 	})
+	// }
+
+	return nil
 
 }
 

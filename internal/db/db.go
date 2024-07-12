@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:41:02
- * @LastEditTime: 2024-07-04 16:06:05
+ * @LastEditTime: 2024-07-12 11:39:50
  * @FilePath: \library_room\internal\db\db.go
  * @description: 注释
  */
@@ -21,7 +21,7 @@ import (
 )
 
 func Newdb(conf config.DBConf) (*gorm.DB, error) {
-	fmt.Printf("当前键值%v", conf)
+	// fmt.Printf("当前键值%v", conf)
 	gormConfig := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix: conf.TablePrefix,
@@ -50,6 +50,8 @@ func Newdb(conf config.DBConf) (*gorm.DB, error) {
 		return OpenMySql(dsn, gormConfig)
 	case config.TypePostgreSQL:
 		return OpenPostgreSQL(dsn, gormConfig)
+
+		// return db
 	case config.TypeMSSQL:
 		return OpenSqlServer(dsn, gormConfig)
 	}

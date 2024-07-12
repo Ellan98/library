@@ -16,7 +16,7 @@ import (
 	"library_room/internal/config"
 	"library_room/internal/dao"
 
-	"github.com/eko/gocache/cache"
+	"github.com/patrickmn/go-cache"
 )
 
 type App struct {
