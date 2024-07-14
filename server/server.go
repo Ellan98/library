@@ -7,6 +7,8 @@
 package server
 
 import (
+	"library_room/internal/entity"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -16,7 +18,7 @@ type Person struct {
 }
 
 // app *core.App
-func StartServer() (*fiber.App, error) {
+func StartServer(user []*entity.SmartModel) (*fiber.App, error) {
 	fb := fiber.New(fiber.Config{
 		// @see https://github.com/gofiber/fiber/issues/426
 		// @see https://github.com/gofiber/fiber/issues/185
@@ -35,6 +37,10 @@ func StartServer() (*fiber.App, error) {
 	p := Person{Name: "hello"}
 	fb.Get("/test", func(c *fiber.Ctx) error {
 		return c.JSON(p)
+		// return c.Send(p)
+	})
+	fb.Get("/modellist", func(c *fiber.Ctx) error {
+		return c.JSON(user)
 		// return c.Send(p)
 	})
 
