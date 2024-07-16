@@ -1,24 +1,24 @@
 /*
  * @Date: 2024-06-28 10:35:01
- * @LastEditTime: 2024-07-12 15:18:27
+ * @LastEditTime: 2024-07-16 16:24:11
  * @FilePath: \library_room\server\server.go
  * @description: 注释
  */
 package server
 
 import (
-	"library_room/internal/entity"
-
+		"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"library_room/internal/core"
 )
 
 type Person struct {
 	Name string `json:"name"`
 }
 
-// app *core.App
-func StartServer(user []*entity.SmartModel) (*fiber.App, error) {
+
+func StartServer(app *core.App) (*fiber.App, error) {
 	fb := fiber.New(fiber.Config{
 		// @see https://github.com/gofiber/fiber/issues/426
 		// @see https://github.com/gofiber/fiber/issues/185
@@ -40,9 +40,10 @@ func StartServer(user []*entity.SmartModel) (*fiber.App, error) {
 		// return c.Send(p)
 	})
 	fb.Get("/modellist", func(c *fiber.Ctx) error {
-		return c.JSON(user)
+		return c.JSON(p)
 		// return c.Send(p)
 	})
 
+	fmt.Printf("%v",app)
 	return fb, fb.Listen(":3000")
 }

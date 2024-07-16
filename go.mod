@@ -18,10 +18,7 @@ require (
 	gorm.io/gorm v1.25.10
 )
 
-require (
-	github.com/rs/cors v1.11.0 // indirect
-	github.com/stretchr/testify v1.9.0 // indirect
-)
+require github.com/stretchr/testify v1.9.0 // indirect
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
