@@ -38,13 +38,13 @@ db:
   # Host address
   host: 'localhost'
   # Host port
-  # port: 5432
-  port: 3306
+  port: 5432
+  # port: 3306
   # Database user
-  # user: postgres
-  user: root
+  user: postgres
+  # user: root
   # Database password
-  # password: "Hhu123456&"
+  password: "Hhu123456&"
   password: root
   # Database charset
   charset: utf8mb4

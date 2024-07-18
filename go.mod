@@ -5,6 +5,7 @@ go 1.22.2
 require (
 	github.com/fatih/color v1.7.0
 	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/gorilla/websocket v1.5.3
 	github.com/knadh/koanf/parsers/yaml v0.1.0
 	github.com/knadh/koanf/providers/file v1.0.0
 	github.com/knadh/koanf/v2 v2.1.1

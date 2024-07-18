@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:27
- * @LastEditTime: 2024-07-16 17:39:28
+ * @LastEditTime: 2024-07-17 16:18:21
  * @FilePath: \library_room\cmd\base.go
  * @description: 注释
  */
@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"library_room/internal/config"
 	"library_room/internal/core"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -53,7 +54,7 @@ func New() *LibraryRoomCmd {
 此应用程序是生成所需文件的工具
 以快速创建Cobra应用程序。`,
 			Run: func(cmd *cobra.Command, args []string) {
-				fmt.Print("**-------------------------------**\n\n")
+				fmt.Print("-------------------------------\n\n")
 				fmt.Println("NOTE: add `-h` flag to show help about any command.")
 			},
 		},
@@ -80,11 +81,17 @@ func (library *LibraryRoomCmd) eagerParseFlags() error {
 }
 
 func (library *LibraryRoomCmd) addCommand(cmd *cobra.Command) {
+	// Load config
+	config, err := getConfig(library.cfgFile)
+	if err != nil {
+		log.Fatal("Config fail: ", err)
+	}
+	// Create new instance
+	library.App = core.NewApp(config)
 
-	fmt.Printf("cmd:%v\n", cmd)
 	library.RootCmd.AddCommand(cmd)
 	//运行子命令
-	// library.RootCmd.SetArgs([]string{"server", "config"})
+	library.RootCmd.SetArgs([]string{"server", "config"})
 }
 
 func (library *LibraryRoomCmd) mountCommands() {
@@ -179,7 +186,6 @@ func (library *LibraryRoomCmd) Launch() error {
 
 func (library *LibraryRoomCmd) printCommands() {
 	commands := library.RootCmd.Commands()
-	fmt.Println("Current commands:\n")
 	for _, cmd := range commands {
 		fmt.Printf("- %s: %s\n", cmd.Use, cmd.Short)
 	}

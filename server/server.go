@@ -1,22 +1,23 @@
 /*
  * @Date: 2024-06-28 10:35:01
- * @LastEditTime: 2024-07-16 16:24:11
+ * @LastEditTime: 2024-07-18 15:27:29
  * @FilePath: \library_room\server\server.go
  * @description: 注释
  */
 package server
 
 import (
-		"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"fmt"
 	"library_room/internal/core"
+	h "library_room/server/handler"
+	"library_room/server/middleware"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Person struct {
 	Name string `json:"name"`
 }
-
 
 func StartServer(app *core.App) (*fiber.App, error) {
 	fb := fiber.New(fiber.Config{
@@ -30,10 +31,7 @@ func StartServer(app *core.App) (*fiber.App, error) {
 		StreamRequestBody:  true,
 		EnableIPValidation: true,
 	})
-	fb.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "Origin, Content-Type, Accept",
-	}))
+
 	p := Person{Name: "hello"}
 	fb.Get("/test", func(c *fiber.Ctx) error {
 		return c.JSON(p)
@@ -44,6 +42,15 @@ func StartServer(app *core.App) (*fiber.App, error) {
 		// return c.Send(p)
 	})
 
-	fmt.Printf("%v",app)
+	api := fb.Group("/api/v2")
+
+	h.AuthAccountLogin(app, api)
+
+	fmt.Printf("%v", app)
 	return fb, fb.Listen(":3000")
+}
+
+func cors(app *core.App, fiber fiber.Router) {
+
+	fiber.Use(middleware.CorsMiddleware(app))
 }

@@ -1,40 +1,38 @@
 /*
+ * @Date: 2024-07-05 10:00:24
+ * @LastEditTime: 2024-07-16 17:36:20
+ * @FilePath: \library_room\cmd\server.go
+ * @description: 注释
+ */
+/*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"library_room/server"
+	"log"
 
 	"github.com/spf13/cobra"
 )
 
-// serverCmd represents the server command
-var serverCmd = &cobra.Command{
-	Use:   "server",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+func NewServeCommand(library *LibraryRoomCmd) *cobra.Command {
+	// serverCmd represents the server command
+	var serverCmd = &cobra.Command{
+		Use:   "server",            //Use: "start" 指定了命令名称为 start。
+		Short: "Start the service", // 提供了简短的描述。
+		Long:  `run server`,
+		//函数定义了执行命令时的具体逻辑。
+		Run: func(cmd *cobra.Command, args []string) {
+			server.StartServer(library.App)
+			_, err := server.StartServer(library.App)
+			if err != nil {
+				log.Fatalln(err)
+			}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("server called")
-	},
-}
+		},
+	}
 
-func init() {
-	rootCmd.AddCommand(serverCmd)
+	return serverCmd
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

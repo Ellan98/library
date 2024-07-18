@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-04 09:45:48
- * @LastEditTime: 2024-07-04 15:32:23
+ * @LastEditTime: 2024-07-18 16:02:28
  * @FilePath: \library_room\internal\config\config.go
  * @description: 注释
  */
@@ -9,6 +9,8 @@ package config
 type Config struct {
 	DB      DBConf `koanf:"db" json:"db"` // 数据库配置
 	cfgFile string
+
+	TrustedDomains []string `koanf:"trusted_domains" json:"trusted_domains"` // 可信任的域名 (新)
 }
 
 type DBConf struct {
