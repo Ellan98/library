@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:27
- * @LastEditTime: 2024-07-17 16:18:21
+ * @LastEditTime: 2024-07-19 10:22:30
  * @FilePath: \library_room\cmd\base.go
  * @description: 注释
  */
@@ -82,7 +82,8 @@ func (library *LibraryRoomCmd) eagerParseFlags() error {
 
 func (library *LibraryRoomCmd) addCommand(cmd *cobra.Command) {
 	// Load config
-	config, err := getConfig(library.cfgFile)
+	// config, err := getConfig(library.cfgFile)
+	config, err := getConfig("configs/library_room.yml")
 	if err != nil {
 		log.Fatal("Config fail: ", err)
 	}

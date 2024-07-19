@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-07-18 16:08:26
+ * @LastEditTime: 2024-07-19 09:58:29
  * @FilePath: \library_room\internal\core\base.go
  * @description: 注释
  */
@@ -53,4 +53,8 @@ func (app *App) registerDefaultHooks() {
 
 func (app *App) Conf() *config.Config {
 	return app.conf
+}
+
+func (app *App) Dao() *dao.Dao {
+	return app.dao
 }

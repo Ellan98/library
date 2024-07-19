@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-12 15:11:30
- * @LastEditTime: 2024-07-18 16:15:15
+ * @LastEditTime: 2024-07-19 08:27:32
  * @FilePath: \library_room\server\middleware\cors.go
  * @description: 注释
  */
@@ -9,7 +9,6 @@ package middleware
 import (
 	"fmt"
 	"library_room/internal/core"
-	"slices"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -22,8 +21,8 @@ func getCorsAllowOrigins(app *core.App) []string {
 }
 
 func CheckOriginTrusted(app *core.App, origin string) bool {
-	// 用于检查切片中是否包含特定元素。 返回布尔值
-	return slices.Contains(getCorsAllowOrigins(app), origin)
+	// 用于检查切片中是否包含特定元素。 返回布尔值 slices.Contains(getCorsAllowOrigins(app), origin)
+	return true
 }
 
 // fb.Use(cors.New(cors.Config{

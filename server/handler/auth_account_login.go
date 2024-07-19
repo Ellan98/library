@@ -4,12 +4,14 @@ package handler
 
 import (
 	"library_room/internal/core"
+	"library_room/server/common"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type Person struct {
-	Name string `json:"name"`
+	Name     string `json:"account"`
+	Password string `json`
 }
 type RequestAuthAccountLogin struct {
 	Account  string `json:"account" validate:"required"`
@@ -18,10 +20,25 @@ type RequestAuthAccountLogin struct {
 }
 
 func AuthAccountLogin(app *core.App, router fiber.Router) {
+
 	router.Post("/auth/account/login", func(c *fiber.Ctx) error {
 
-		p := Person{Name: "hello"}
-		return c.JSON(p)
+		var p RequestAuthAccountLogin
+
+		if ok, resp := common.ParamsDecode(c, p); !ok {
+			return resp
+		}
+		// fmt.Print()
+
+		data, error := app.Dao().FindAuthByAccount(p.Account, p.Password)
+		if error != nil {
+
+		}
+
+		return c.JSON(data)
+
+		// p := Person{Name: "hello"}
+
 		// return c.Send(p)
 	})
 }
