@@ -1,13 +1,15 @@
 /*
  * @Date: 2024-07-17 16:39:32
- * @LastEditTime: 2024-07-17 16:39:41
+ * @LastEditTime: 2024-08-02 10:44:24
  * @FilePath: \library_room\internal\entity\message.go
  * @description: 注释
  */
 package entity
 
+import "gorm.io/gorm"
+
 type Message struct {
-	Model
+	gorm.Model
 	FormId   int64  `json:"userId"`   //信息发送者
 	TargetId int64  `json:"targetId"` //信息接收者
 	Type     int    //聊天类型：群聊 私聊 广播

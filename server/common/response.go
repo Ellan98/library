@@ -8,22 +8,17 @@ import (
 
 type JSONResult struct {
 	Msg  string      `json:"msg,omitempty"`
+	Code int32       `json:"code,omitempty"`
 	Data interface{} `json:"data,omitempty"`
 }
 
 // RespData just response data
-func RespData(c *fiber.Ctx, data interface{}) error {
-	// 设置响应的 HTTP 状态。
-	return c.Status(http.StatusOK).JSON(data)
-}
-
-func RespSuccess(c *fiber.Ctx, msg ...string) error {
+func RespData(c *fiber.Ctx, code int32, msg string, data interface{}) error {
 	respData := &JSONResult{
-		Msg: "Success",
+		Msg:  msg,
+		Code: code,
+		Data: data,
 	}
-
-	if len(msg) > 0 {
-		respData.Msg = msg[0]
-	}
+	// 设置响应的 HTTP 状态。
 	return c.Status(http.StatusOK).JSON(respData)
 }

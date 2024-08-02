@@ -19,9 +19,9 @@ import (
 func NewServeCommand(library *LibraryRoomCmd) *cobra.Command {
 	// serverCmd represents the server command
 	var serverCmd = &cobra.Command{
-		Use:   "server",            //Use: "start" 指定了命令名称为 start。
-		Short: "Start the service", // 提供了简短的描述。
-		Long:  `run server`,
+		Use:   "server",        //Use: "start" 指定了命令名称为 start。
+		Short: "service short", // 提供了简短的描述。
+		Long:  ` server details`,
 		//函数定义了执行命令时的具体逻辑。
 		Run: func(cmd *cobra.Command, args []string) {
 			server.StartServer(library.App)

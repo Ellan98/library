@@ -8,6 +8,7 @@ package cmd
 
 import (
 	"fmt"
+	"library_room/internal/core"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -26,11 +27,13 @@ func NewConfigCommand() *cobra.Command {
 				log.Fatal("Config  错误: ", err)
 			}
 			fmt.Printf("当前文件名%v\n 因为没有赋值 所以为空", filename)
+
 			// Get new config instance
-			// config, err := getConfig(filename)
-			// if err != nil {
-			// 	log.Fatal("Config fail: ", err)
-			// }
+			config, err := getConfig(filename)
+			if err != nil {
+				log.Fatal("Config fail: ", err)
+			}
+			core.NewApp(config)
 
 			// Output JSON of config
 			// Go 语言标准库 encoding/json 中的一个函数，数据结构（如结构体、数组、切片、映射等）序列化为格式化的 JSON 字符串。与 json.Marshal 不同的是，json.MarshalIndent 会对输出的 JSON 进行缩进和格式化，使其更易读。

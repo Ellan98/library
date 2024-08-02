@@ -12,14 +12,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type Model struct {
-	ID               uint `gorm:"prinmaryKey`
-	CreateAt, Update time.Time
-	DeletedAt        gorm.DeletedAt `gorm:"index"`
-}
+// type Model struct {
+// 	ID               uint `gorm:"prinmaryKey`
+// 	CreateAt, Update time.Time
+// 	DeletedAt        gorm.DeletedAt `gorm:"index"`
+// }
 
 type UserBasic struct {
-	Model
+	gorm.Model
 	Name          string
 	Password      string
 	Avatar        string

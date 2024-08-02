@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:27
- * @LastEditTime: 2024-07-19 10:22:30
+ * @LastEditTime: 2024-08-02 11:01:28
  * @FilePath: \library_room\cmd\base.go
  * @description: 注释
  */
@@ -49,7 +49,7 @@ func New() *LibraryRoomCmd {
 	cmd := &LibraryRoomCmd{
 		RootCmd: &cobra.Command{
 			Use:   "library",
-			Short: "Library: A self-hosted comment system",
+			Short: "Library: 为主commond",
 			Long: `Cobra是Go的CLI库，可为应用程序提供功能。
 此应用程序是生成所需文件的工具
 以快速创建Cobra应用程序。`,
@@ -60,7 +60,6 @@ func New() *LibraryRoomCmd {
 		},
 	}
 	cmd.RootCmd.SetVersionTemplate("Library ({{printf \"%s\" .Version}})\n")
-
 	// Parse base flags
 	cmd.eagerParseFlags()
 
@@ -83,6 +82,8 @@ func (library *LibraryRoomCmd) eagerParseFlags() error {
 func (library *LibraryRoomCmd) addCommand(cmd *cobra.Command) {
 	// Load config
 	// config, err := getConfig(library.cfgFile)
+
+	library.RootCmd.Execute()
 	config, err := getConfig("configs/library_room.yml")
 	if err != nil {
 		log.Fatal("Config fail: ", err)
@@ -100,43 +101,8 @@ func (library *LibraryRoomCmd) mountCommands() {
 	library.addCommand(NewConfigCommand())
 }
 
-// // 初始化配置
-// cfg, err := getConfig("configs/library_room.yml")
-// if err != nil {
-// 	log.Fatalf("Error getting config: %v", err)
-// }
-// fmt.Printf("New implement....%+v\n", cfg)
-
-// // 初始化数据库，传递 cfg.DB 给 db.Newdb 函数
-
-// db, err := db.Newdb(cfg.DB)
-// if err != nil {
-// 	log.Fatalf("Error connecting to database: %v", err)
-// }
-// // configCmd := NewConfigCommand()
-// // fmt.Printf("configCmd%+v\n", configCmd)
-// server.StartServer()
-
-// 	// Create new config instance by specific config filename
-// func getConfig(cfgFile string) (*config.Config, error) {
-// 	// Retrieve config file by default names when specific filename is empty
-
-// 	// Create new config instance and return
-// 	return config.NewFromFile(cfgFile)
-// }
-
 // Create new config instance by specific config filename
 func getConfig(cfgFile string) (*config.Config, error) {
-	// Retrieve config file by default names when specific filename is empty
-	// if cfgFile == "" {
-	// 	cfgFile = config.RetrieveConfigFile()
-	// }
-
-	// // Generate new config file when retrieve failed
-	// if cfgFile == "" {
-	// 	cfgFile = config.CONF_DEFAULT_FILENAMES[0]
-	// 	core.Gen("config", cfgFile, false)
-	// }
 
 	// Create new config instance and return
 	return config.NewFromFile(cfgFile)

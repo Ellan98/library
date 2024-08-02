@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-07-12 09:32:01
- * @LastEditTime: 2024-07-13 10:51:44
- * @FilePath: \Artalk-master\internal\models\user_basic.go
+ * @LastEditTime: 2024-08-02 11:15:52
+ * @FilePath: \library_room\internal\entity\user_basic.go
  * @description: 注释
  */
 package entity
@@ -12,17 +12,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type Model struct {
-	ID               uint `gorm:"prinmaryKey`
-	CreateAt, Update time.Time
-	DeletedAt        gorm.DeletedAt `gorm:"index"`
-}
+// type Model struct {
+// 	ID        uint           `gorm:"prinmaryKey`
+// 	CreateAt  time.Time      `gorm:"create_at"`
+// 	Update    time.Time      `gorm:"type:datetime"`
+// 	DeletedAt gorm.DeletedAt `gorm:"index"`
+// }
 
 type UserBasic struct {
-	Model
+	gorm.Model
 	Name          string
 	Password      string
 	Avatar        string
+	Account       string
 	Gender        string `gorm:"type:varchar(6); default:'male'; comment:'male表示男，female表示女'"` //gorm为数据库字段约束
 	Phone         string `valid:"matches(^1[3-9]{1}\\d{9}$)"`
 	Email         string `valid:"email"`

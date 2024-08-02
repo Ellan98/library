@@ -56,7 +56,7 @@ db:
 # Web server
 http:
   # Body size limit (unit: MB)
-  body_limit: 100
+  body_limit: 200
   # Proxy Header (fill `X-Forwarded-For` to get user real IP if behind a trusted reverse proxy or CDN)
   proxy_header: ""
 

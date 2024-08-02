@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-07-19 09:58:29
+ * @LastEditTime: 2024-08-02 08:26:28
  * @FilePath: \library_room\internal\core\base.go
  * @description: 注释
  */
@@ -44,6 +44,8 @@ func NewApp(conf *config.Config) *App {
 
 func (app *App) injectDefaultServices() {
 	// 请勿依赖注入顺序
+	app.Conf()
+	app.Dao()
 
 }
 
