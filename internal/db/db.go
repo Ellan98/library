@@ -55,7 +55,6 @@ func Newdb(conf config.DBConf) (*gorm.DB, error) {
 	case config.TypeMSSQL:
 		return OpenSqlServer(dsn, gormConfig)
 	}
-
 	return nil, fmt.Errorf("unsupported database type %s", conf.Type)
 
 }

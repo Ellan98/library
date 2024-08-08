@@ -38,8 +38,6 @@ func NewFromFile(cfgFile string) (*Config, error) {
 		log.Fatalf("error unmarshalling config: %+v\n", err)
 	}
 
-	fmt.Printf("config file 当前实例化DBConf %v", conf)
-
 	// fmt.Printf("当前结构体%+v\n", conf)
 
 	return conf, nil

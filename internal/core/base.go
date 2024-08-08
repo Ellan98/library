@@ -1,20 +1,16 @@
 /*
  * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-08-02 08:26:28
- * @FilePath: \library_room\internal\core\base.go
- * @description: 注释
- */
-/*
- * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-07-05 08:43:31
+ * @LastEditTime: 2024-08-08 14:27:04
  * @FilePath: \library_room\internal\core\base.go
  * @description: 注释
  */
 package core
 
 import (
+	"fmt"
 	"library_room/internal/config"
 	"library_room/internal/dao"
+	"library_room/internal/db"
 
 	"github.com/patrickmn/go-cache"
 )
@@ -30,6 +26,7 @@ type App struct {
 }
 
 func NewApp(conf *config.Config) *App {
+
 	app := &App{
 		conf:    conf,
 		service: &map[string]Service{},
@@ -42,10 +39,16 @@ func NewApp(conf *config.Config) *App {
 	return app
 }
 
-func (app *App) injectDefaultServices() {
+func (app *App) injectDefaultServices() error {
 	// 请勿依赖注入顺序
-	app.Conf()
-	app.Dao()
+
+	// DAO
+	if app.dao == nil {
+		if err := app.initDao(); err != nil {
+			return err
+		}
+	}
+	return nil
 
 }
 
@@ -58,5 +61,21 @@ func (app *App) Conf() *config.Config {
 }
 
 func (app *App) Dao() *dao.Dao {
+	fmt.Println("implement.............", *app.dao)
+	fmt.Printf("dao:%v \n,conf:%v\n", *app.dao, app.conf)
 	return app.dao
+}
+
+func (app *App) initDao() error {
+	dbInstance, err := db.Newdb(app.conf.DB)
+	if err != nil {
+		return fmt.Errorf("db init err: %w", err)
+	}
+	app.SetDao(dao.NewDao(dbInstance))
+
+	return nil
+}
+
+func (app *App) SetDao(dao *dao.Dao) {
+	app.dao = dao
 }

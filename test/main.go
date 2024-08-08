@@ -23,7 +23,7 @@ func main() {
 		panic(err)
 	}
 	// 自动迁移 (这是GORM自动创建表的一种方式--译者注)
-	err = db.AutoMigrate(&entity.Message{})
+	err = db.AutoMigrate(&entity.Task{})
 	if err != nil {
 		panic(err)
 	}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"library_room/internal/core"
 	"library_room/internal/entity"
+	"library_room/internal/utils"
 	"library_room/server/common"
 
 	"github.com/gofiber/fiber/v2"
@@ -58,6 +59,7 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 			"phone":      auth.Phone,
 			"deviceInfo": auth.DeviceInfo,
 			"createAt":   auth.CreatedAt,
+			"userId":     auth.UserID,
 			// 根据需要添加更多字段
 		}
 		return common.RespData(c, 200, "操作成功", response)
@@ -72,7 +74,9 @@ func AuthAccountSignup(app *core.App, router fiber.Router) {
 		}
 		user := &entity.UserBasic{
 			Account:  p.Account,
+			Name:     p.Account,
 			Password: p.Password,
+			UserID:   utils.NewSonyflake(),
 		}
 
 		err := app.Dao().CreateAuth(user)
@@ -91,6 +95,7 @@ func AuthAccountSignup(app *core.App, router fiber.Router) {
 			"phone":      user.Phone,
 			"deviceInfo": user.DeviceInfo,
 			"createAt":   user.CreatedAt,
+			"userID":     user.UserID,
 		}
 		fmt.Println("解析后的参数为：", p)
 		return common.RespData(c, 200, fmt.Sprintf("用户%v创建成功", p.Account), mapData)

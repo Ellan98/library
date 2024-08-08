@@ -31,12 +31,13 @@ type UserBasic struct {
 	Identity      string
 	ClientIp      string `valid:"ipv4"`
 	ClientPort    string
-	Salt          string     //盐值
+	Salt          string //盐值
+	DeviceInfo    string //登录设备
+	UserID        uint64
 	LoginTime     *time.Time `gorm:"column:login_time"`
 	HeartBeatTime *time.Time `gorm:"column:heart_beat_time"`
 	LoginOutTime  *time.Time `gorm:"column:login_out_time"`
 	IsLoginOut    bool
-	DeviceInfo    string //登录设备
 }
 
 func (table *UserBasic) UserTableName() string {
