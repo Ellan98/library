@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"library_room/internal/core"
 	"library_room/internal/entity"
+	"library_room/server/common"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,12 +18,12 @@ func CreateTask(app *core.App, r fiber.Router) {
 	var p entity.Task
 	r.Post("/task/create", func(c *fiber.Ctx) error {
 		fmt.Println("打印")
-		// common.ParamsDecode(c, &p)
-		// ValidateParams(&p, c)
-		c.BodyParser(&p)
-		// task := &entity.Task{
 
-		// }
+		ok, resp := common.ParamsDecode(c, &p)
+		if !ok {
+			return resp
+		}
+
 		p.CreateTime = time.Now().Format("2006/01/02 15:04:05")
 		p.UserID = 526064888234115472
 
