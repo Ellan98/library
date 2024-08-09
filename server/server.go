@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:01
- * @LastEditTime: 2024-08-07 11:30:27
+ * @LastEditTime: 2024-08-09 13:53:04
  * @FilePath: \library_room\server\server.go
  * @description: 注释
  */
@@ -46,6 +46,9 @@ func StartServer(app *core.App) (*fiber.App, error) {
 	h.AuthAccountSignup(app, api)
 	h.QueryTaskList(app, api)
 	h.CreateTask(app, api)
+	h.FindTaskById(app, api)
+	h.EditTaskById(app, api)
+	h.DeleteTask(app, api)
 	api.Get("/test", func(c *fiber.Ctx) error {
 		return c.JSON(p)
 		// return c.Send(p)

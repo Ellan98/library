@@ -44,6 +44,7 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 		}
 
 		auth := findAuth(p.Account, p.Password)
+		fmt.Println("当前查找的用户为", auth)
 		if auth.ID == 0 {
 			mapAuth := map[string]interface{}{}
 			return common.RespData(c, 500, fmt.Sprintf("用户%v不存在", p.Account), mapAuth)
@@ -82,7 +83,6 @@ func AuthAccountSignup(app *core.App, router fiber.Router) {
 		err := app.Dao().CreateAuth(user)
 
 		if err != nil {
-			fmt.Errorf("错误", err)
 			return common.RespData(c, 500, fmt.Sprintf("用户%v创建失败", p.Account), err)
 		}
 
@@ -97,7 +97,6 @@ func AuthAccountSignup(app *core.App, router fiber.Router) {
 			"createAt":   user.CreatedAt,
 			"userID":     user.UserID,
 		}
-		fmt.Println("解析后的参数为：", p)
 		return common.RespData(c, 200, fmt.Sprintf("用户%v创建成功", p.Account), mapData)
 	})
 }
@@ -128,7 +127,6 @@ func AuthAccountEdit(app *core.App, router fiber.Router) {
 			"deviceInfo": user.DeviceInfo,
 			"createAt":   user.CreatedAt,
 		}
-		fmt.Println("解析后的参数为：", p)
 		return common.RespData(c, 200, fmt.Sprintf("用户%v创建成功", p.Account), mapData)
 	})
 }
