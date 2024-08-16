@@ -19,11 +19,9 @@ func FindTaskById(app *core.App, r fiber.Router) {
 func EditTaskById(app *core.App, r fiber.Router) {
 	var p entity.Task
 	r.Put("/task/edit", func(c *fiber.Ctx) error {
-
 		c.BodyParser(&p)
 		app.Dao().EditTaskById(&p)
 		common.RespData(c, 200, "当前参数", p)
-
 		return nil
 	})
 }

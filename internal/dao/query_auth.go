@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-18 11:38:31
- * @LastEditTime: 2024-08-08 18:03:25
+ * @LastEditTime: 2024-08-16 11:16:26
  * @FilePath: \library_room\internal\dao\query_auth.go
  * @description: 注释 定义对数据库操作的方法
  */
@@ -13,11 +13,9 @@ import (
 )
 
 // 查找用户 (通过 account)
-func (dao *Dao) FindAuthByAccount(account string, password string) []entity.UserBasic {
-
+func (dao *Dao) FindAuthByAccount(account string) []entity.UserBasic {
 	var users []entity.UserBasic
 	dao.DB().Model(&entity.UserBasic{}).Where("account = ?", account).Find(&users)
-
 	return users
 }
 

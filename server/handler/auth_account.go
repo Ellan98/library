@@ -21,17 +21,16 @@ var p RequestAuthAccount
 
 // 登录
 func AuthAccountLogin(app *core.App, router fiber.Router) {
-
 	router.Post("/auth/login", func(c *fiber.Ctx) error {
-
 		if ok, resp := common.ParamsDecode(c, &p); !ok {
 			return resp
 		}
 
 		findAuth := func(account string, password string) (auth entity.UserBasic) {
-			auths := app.Dao().FindAuthByAccount(account, password)
+			auths := app.Dao().FindAuthByAccount(account)
 
 			if len(auths) == 0 {
+
 				return entity.UserBasic{}
 			}
 			user := entity.UserBasic{}
@@ -44,26 +43,32 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 		}
 
 		auth := findAuth(p.Account, p.Password)
-		fmt.Println("当前查找的用户为", auth)
-		if auth.ID == 0 {
-			mapAuth := map[string]interface{}{}
-			return common.RespData(c, 500, fmt.Sprintf("用户%v不存在", p.Account), mapAuth)
+
+		if auth.ID != 0 {
+			token, err := common.LoginGetUserToken(&auth)
+			if err != nil {
+				return common.RespError(c, 500, "token生成失败")
+			}
+
+			// 构建返回的 map
+			response := map[string]interface{}{
+				"id":         auth.ID,
+				"name":       auth.Name,
+				"email":      auth.Email,
+				"avatar":     auth.Avatar,
+				"gender":     auth.Gender,
+				"phone":      auth.Phone,
+				"deviceInfo": auth.DeviceInfo,
+				"createAt":   auth.CreatedAt,
+				"userId":     auth.UserID,
+				// 根据需要添加更多字段
+				"token": token,
+			}
+			return common.RespData(c, 200, "登录成功", response)
+		} else {
+			return common.RespError(c, 500, "账号或密码错误", map[string]interface{}{})
 		}
 
-		// 构建返回的 map
-		response := map[string]interface{}{
-			"id":         auth.ID,
-			"name":       auth.Name,
-			"email":      auth.Email,
-			"avatar":     auth.Avatar,
-			"gender":     auth.Gender,
-			"phone":      auth.Phone,
-			"deviceInfo": auth.DeviceInfo,
-			"createAt":   auth.CreatedAt,
-			"userId":     auth.UserID,
-			// 根据需要添加更多字段
-		}
-		return common.RespData(c, 200, "操作成功", response)
 	})
 }
 

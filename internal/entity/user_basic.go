@@ -1,12 +1,14 @@
 /*
  * @Date: 2024-07-12 09:32:01
- * @LastEditTime: 2024-08-02 11:15:52
+ * @LastEditTime: 2024-08-16 11:27:00
  * @FilePath: \library_room\internal\entity\user_basic.go
  * @description: 注释
  */
 package entity
 
 import (
+	"fmt"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -42,4 +44,18 @@ type UserBasic struct {
 
 func (table *UserBasic) UserTableName() string {
 	return "user_basic"
+}
+
+func (u *UserBasic) CheckPassWord(ps string) bool {
+
+	password := strings.TrimSpace(ps)
+
+	if u.Password == password {
+
+		fmt.Println("password通过", u)
+		return true
+	}
+
+	return false
+
 }

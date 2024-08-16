@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-08-08 14:27:04
+ * @LastEditTime: 2024-08-16 08:59:40
  * @FilePath: \library_room\internal\core\base.go
  * @description: 注释
  */
@@ -61,8 +61,6 @@ func (app *App) Conf() *config.Config {
 }
 
 func (app *App) Dao() *dao.Dao {
-	fmt.Println("implement.............", *app.dao)
-	fmt.Printf("dao:%v \n,conf:%v\n", *app.dao, app.conf)
 	return app.dao
 }
 

@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-08-08 09:13:53
+ * @LastEditTime: 2024-08-16 09:02:41
+ * @FilePath: \library_room\server\handler\task_create_post.go
+ * @description: 注释
+ */
 package handler
 
 import (
@@ -17,12 +23,12 @@ import (
 func CreateTask(app *core.App, r fiber.Router) {
 	var p entity.Task
 	r.Post("/task/create", func(c *fiber.Ctx) error {
-		fmt.Println("打印")
 
 		ok, resp := common.ParamsDecode(c, &p)
 		if !ok {
 			return resp
 		}
+		common.GetTokenByReq(c)
 
 		p.CreateTime = time.Now().Format("2006/01/02 15:04:05")
 		p.UserID = 526064888234115472
@@ -42,7 +48,5 @@ func ValidateParams(p entity.Task, c *fiber.Ctx) {
 	if err := c.BodyParser(p); err != nil {
 		fmt.Println("打印", p)
 	}
-
-	// fmt.Println("test", p.Level)
 
 }
