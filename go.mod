@@ -3,14 +3,15 @@ module library_room
 go 1.22.2
 
 require (
-	github.com/fatih/color v1.7.0
 	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/gorilla/websocket v1.5.3
 	github.com/knadh/koanf/parsers/yaml v0.1.0
 	github.com/knadh/koanf/providers/file v1.0.0
 	github.com/knadh/koanf/v2 v2.1.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/samber/lo v1.44.0
+	github.com/sony/sonyflake v1.2.0
 	github.com/spf13/cobra v1.8.1
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.9
@@ -20,12 +21,7 @@ require (
 )
 
 require (
-	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
-	github.com/gomodule/redigo v1.8.4 // indirect
-	github.com/googollee/go-socket.io v1.7.0 // indirect
-	github.com/sony/sonyflake v1.2.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 )
 
