@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:35:01
- * @LastEditTime: 2024-08-09 13:53:04
+ * @LastEditTime: 2024-08-21 14:51:32
  * @FilePath: \library_room\server\server.go
  * @description: 注释
  */
@@ -49,10 +49,7 @@ func StartServer(app *core.App) (*fiber.App, error) {
 	h.FindTaskById(app, api)
 	h.EditTaskById(app, api)
 	h.DeleteTask(app, api)
-	api.Get("/test", func(c *fiber.Ctx) error {
-		return c.JSON(p)
-		// return c.Send(p)
-	})
+	h.SendMessage(app, api)
 	fmt.Printf("%v", app)
 	return fb, fb.Listen(":3030")
 
@@ -60,6 +57,17 @@ func StartServer(app *core.App) (*fiber.App, error) {
 
 func cors(app *core.App, fiber fiber.Router) {
 	fiber.Use(middleware.CorsMiddleware(app))
+
 }
 
-// server := socketio.NewServer(nil)
+// func socket(app *core.App, fiber fiber.Router) error {
+// 	fiber.Use(func(c *fiber.Ctx) error {
+// 		// IsWebSocketUpgrade returns true if the client
+// 		// requested upgrade to the WebSocket protocol.
+// 		if websocket.IsWebSocketUpgrade(c) {
+// 			c.Locals("allowed", true)
+// 			return c.Next()
+// 		}
+// 		return fiber.ErrUpgradeRequired
+// 	})
+// }

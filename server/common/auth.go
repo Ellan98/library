@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-17 16:26:11
- * @LastEditTime: 2024-08-16 13:59:31
+ * @LastEditTime: 2024-08-19 09:49:13
  * @FilePath: \library_room\server\common\auth.go
  * @description: 注释
  */
@@ -42,8 +42,8 @@ func LoginGetUserToken(user *entity.UserBasic) (string, error) {
 	return tokenString, nil
 }
 
-func GetTokenByReq(c *fiber.Ctx)  {
-	token := c.Get("token")
+func GetTokenByReq(c *fiber.Ctx) {
+	// token := c.Get("token")
 
 	// ParseWithClaims
 

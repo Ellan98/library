@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-07-04 11:23:35
- * @LastEditTime: 2024-08-16 08:59:40
+ * @LastEditTime: 2024-08-21 17:28:57
  * @FilePath: \library_room\internal\core\base.go
  * @description: 注释
  */
@@ -48,6 +48,7 @@ func (app *App) injectDefaultServices() error {
 			return err
 		}
 	}
+
 	return nil
 
 }
@@ -77,3 +78,16 @@ func (app *App) initDao() error {
 func (app *App) SetDao(dao *dao.Dao) {
 	app.dao = dao
 }
+
+// // 启动 模型
+// func (app *App) InitModels() {
+// 	conn := app.models.StartSparkModel()
+// 	app.conn = conn
+
+// }
+
+// // 获取模型
+// func (app *App) SparkModelConn() *websocket.Conn {
+// 	return app.conn
+
+// }

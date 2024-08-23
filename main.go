@@ -1,6 +1,6 @@
 /*
  * @Date: 2024-06-28 10:33:07
- * @LastEditTime: 2024-07-24 16:54:33
+ * @LastEditTime: 2024-08-21 15:14:59
  * @FilePath: \library_room\main.go
  * @description: 注释
  */
@@ -27,11 +27,12 @@ THE SOFTWARE.
 */
 package main
 
-import "library_room/cmd"
+import (
+	"library_room/cmd"
+)
 
 func main() {
 
-	// cmd.Execute()
 	app := cmd.New()
 	app.Launch()
 }
