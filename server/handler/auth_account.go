@@ -27,10 +27,12 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 		}
 
 		findAuth := func(account string, password string) (auth entity.UserBasic) {
+
+			fmt.Println("待匹配账户", account)
 			auths := app.Dao().FindAuthByAccount(account)
 
 			if len(auths) == 0 {
-
+				fmt.Println("未匹配到用户", auths)
 				return entity.UserBasic{}
 			}
 			user := entity.UserBasic{}
@@ -39,6 +41,7 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 					user = auth
 				}
 			}
+			fmt.Println("匹配到用户", user)
 			return user
 		}
 
@@ -64,6 +67,7 @@ func AuthAccountLogin(app *core.App, router fiber.Router) {
 				// 根据需要添加更多字段
 				"token": token,
 			}
+			common.GetTokenByReq(token)
 			return common.RespData(c, 200, "登录成功", response)
 		} else {
 			return common.RespError(c, 500, "账号或密码错误", map[string]interface{}{})
@@ -134,8 +138,4 @@ func AuthAccountEdit(app *core.App, router fiber.Router) {
 		}
 		return common.RespData(c, 200, fmt.Sprintf("用户%v创建成功", p.Account), mapData)
 	})
-}
-
-func getAuthsList() {
-
 }

@@ -1,3 +1,9 @@
+/*
+ * @Date: 2024-08-08 10:51:37
+ * @LastEditTime: 2024-09-09 08:57:17
+ * @FilePath: \library_room\internal\dao\query_task.go
+ * @description: 注释
+ */
 package dao
 
 import (
@@ -34,9 +40,7 @@ func (dao *Dao) EditTaskById(p *entity.Task) {
 
 // 删除
 func (dao *Dao) DeleteTask(taskId string) {
-
 	dao.DB().Model(&entity.Task{}).Where("id = ?", taskId).Delete(&entity.Task{})
-
 	fmt.Println(taskId)
 
 }

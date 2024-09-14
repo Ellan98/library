@@ -21,11 +21,7 @@ require (
 )
 
 require (
-	github.com/fasthttp/websocket v1.5.10 // indirect
-	github.com/gofiber/contrib/socketio v1.1.2 // indirect
-	github.com/gofiber/contrib/websocket v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
-	github.com/savsgio/gotils v0.0.0-20240704082632-aef3928b8a38 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 )
 
@@ -62,7 +58,6 @@ require (
 	github.com/valyala/fasthttp v1.55.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/crypto v0.24.0 // indirect
-	golang.org/x/net v0.26.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
